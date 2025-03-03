@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
+    <title>DDA</title>
+    <link href="style/main.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="heading">
+        <h1 class="title">DDA Algorithm</h1>
+        <h3 class="author">UIT</h3>
+      </div>
+
+      <select name="select" id="select">
+        <option value="dda">DDA</option>
+        <option value="bresenham">BRESENHAM</option>
+        <option value="midpoint">MID-POINT</option>
+      </select>
+
+      <div class="main-container">
+        <canvas id="canvas"> </canvas>
+      </div>
+
+      <div class="buttons">
+        <button id="reset">Reset</button>
+      </div>
+
+      <script>
+        let currentScript = null;
+
+        function loadAlgorithm(scriptName) {
+          if (currentScript) {
+            document.body.removeChild(currentScript);
+          }
+          currentScript = document.createElement("script");
+          currentScript.src = `src/${scriptName}.js`;
+          currentScript.type = "text/javascript";
+          document.body.appendChild(currentScript);
+          resetCanvas();
+        }
+
+        function resetCanvas() {
+          var canvas = document.getElementById("canvas");
+          var context = canvas.getContext("2d");
+          context.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        document.getElementById("reset").addEventListener("click", resetCanvas);
+        var select = document.getElementById("select");
+        select.addEventListener("change", function () {
+          console.log(select.value);
+          loadAlgorithm(select.value);
+        });
+      </script>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./webgl-tutorials.css" />
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <div id="uiContainer">
+      <div id="ui">
+        <div id="translation" class="ui-dark-support">
+          <h3>Tịnh tiến</h3>
+          <div id="x-translation"></div>
+          <div id="y-translation"></div>
+        </div>
+        <div id="rotation" class="ui-dark-support">
+          <h3>Xoay</h3>
+          <div id="angle"></div>
+        </div>
+        <div id="scale" class="ui-dark-support">
+          <h3>Tỉ lệ</h3>
+          <div id="x-scale"></div>
+          <div id="y-scale"></div>
+        </div>
+      </div>
+    </div>
+    <script id="vertex-shader" type="x-shader/x-vertex">
+      attribute vec2 a_position;
+      uniform vec2 u_resolution;
+      uniform vec2 u_translation;
+      uniform vec2 u_scale;
+      uniform float u_rotation;
+
+      void main() {
+          vec2 scaledPosition = a_position * u_scale;
+
+          float s = sin(u_rotation);
+          float c = cos(u_rotation);
+          mat2 rotationMatrix = mat2(c, -s, s, c);
+          vec2 rotatedPosition = rotationMatrix * scaledPosition;
+
+          vec2 position = rotatedPosition + u_translation;
+
+          vec2 zeroToOne = position / u_resolution;
+
+          vec2 zeroToTwo = zeroToOne * 2.0;
+
+          vec2 clipSpace = zeroToTwo - 1.0;
+
+          gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+      }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+      precision mediump float;
+      uniform vec4 u_color;
+
+      void main() {
+          gl_FragColor = u_color;
+      }
+    </script>
+
+    <script src="webgl-lessons-ui.js"></script>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

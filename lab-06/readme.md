@@ -1,0 +1,1 @@
+(Cần cài đặt Node.js) Trong terminal, dùng lệnh 'npm i' để tải các module cần thiết, sau đó dùng lệnh 'npx vite' và mở URL http://localhost:5173.
